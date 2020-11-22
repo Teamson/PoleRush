@@ -26,7 +26,7 @@ export default class GameUI extends Laya.Scene {
 
     onOpened() {
         GameUI.Share = this
-
+        GameLogic.Share.isStartGame = true
         this.gradeNum.text = PlayerDataMgr.getPlayerData().grade.toString()
         this.curGrade.text = PlayerDataMgr.getPlayerData().grade.toString()
         this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchBtnDownCB)
@@ -85,6 +85,34 @@ export default class GameUI extends Laya.Scene {
         this.coinNum.text = PlayerDataMgr.getPlayerData().coin.toString()
     }
 
+    fixJewelIcon(jewel: Laya.Sprite3D) {
+        let op: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
+        let hPos = jewel.transform.position.clone()
+        hPos.y += 1
+        GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op)
+
+        let j = new Laya.Image('startUI/zy_zs_1.png')
+        j.anchorX = 0.5
+        j.anchorY = 0.5
+        j.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY)
+        this.addChild(j)
+        Utility.tMove2D(j, 60, 80, 1000, () => { j.removeSelf() })
+    }
+
+    fixAddScore() {
+        let op: Laya.Vector4 = new Laya.Vector4(0, 0, 0)
+        let hPos = GameLogic.Share._player.transform.position.clone()
+        hPos.y += 1
+        hPos.z += 2
+        GameLogic.Share._camera.viewport.project(hPos, GameLogic.Share._camera.projectionViewMatrix, op)
+
+        let j = new Laya.Image('gameUI/yxz_jy_1.png')
+        j.anchorX = 0.5
+        j.anchorY = 0.5
+        j.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY)
+        this.addChild(j)
+        Utility.tMove2D(j, j.x, j.y - 50, 500, () => { j.removeSelf() })
+    }
 
     initNav() {
         let id = Math.floor(Math.random() * JJMgr.instance.navDataArr.length)
@@ -101,10 +129,6 @@ export default class GameUI extends Laya.Scene {
         JJMgr.instance.NavigateApp(id, () => {
             JJMgr.instance.openScene(SceneDir.SCENE_FULLGAMEUI, false, {
                 continueCallbackFun: () => {
-                    if (GameLogic.Share.isGameOver && GameLogic.Share.isWin) {
-                        GameLogic.Share.showFinish()
-                        return
-                    }
                     if (JJMgr.instance.dataConfig.front_main_banner_switch && WxApi.isValidBanner()) {
                         AdMgr.instance.showBanner()
                     }
@@ -113,10 +137,6 @@ export default class GameUI extends Laya.Scene {
             })
         }, () => {
             WxApi.aldEvent('游戏内导出位-总成功跳转数')
-            if (GameLogic.Share.isGameOver && GameLogic.Share.isWin) {
-                GameLogic.Share.showFinish()
-                return
-            }
             GameLogic.Share.isPause = false
         })
     }

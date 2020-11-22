@@ -1,5 +1,5 @@
 import WxApi from "../Libs/WxApi"
-import PlayerDataMgr from "../Libs/PlayerDataMgr"
+import PlayerDataMgr, { ModelPos } from "../Libs/PlayerDataMgr"
 import Utility from "../Mod/Utility"
 import Player from "./Player"
 import PrefabManager from "../Libs/PrefabManager"
@@ -12,6 +12,7 @@ import AdMgr from "../Mod/AdMgr"
 import Pole from "./Pole"
 import PropPole from "./PropPole"
 import Box from "./Box"
+import Jewel from "./Jewel"
 
 export default class GameLogic {
     public static Share: GameLogic
@@ -38,6 +39,7 @@ export default class GameLogic {
     public _boxNode: Laya.Sprite3D = null
     public _finish: Laya.Sprite3D = null
 
+    public _coinCount: number = 0
     public _score: number = 0
     public totalDistance: number = 0
     public isDes: boolean = false
@@ -106,10 +108,12 @@ export default class GameLogic {
     }
 
     fixCameraField() {
-        let staticDT: number = 1624 - 1334
-        let curDT: number = Laya.stage.displayHeight - 1334 < 0 ? 0 : Laya.stage.displayHeight - 1334
-        let per = curDT / staticDT * 10
-        this._camera.fieldOfView = 90 + per
+        // let staticDT: number = 1624 - 1334
+        // let curDT: number = Laya.stage.displayHeight - 1334 < 0 ? 0 : Laya.stage.displayHeight - 1334
+        // let per = curDT / staticDT * 10
+        // this._camera.fieldOfView = 90 + per
+        if (this._pole)
+            this._camera.fieldOfView = 100 + this._pole.transform.localScaleX
     }
 
     setFog() {
@@ -147,14 +151,13 @@ export default class GameLogic {
         Laya.Scene.open('MyScenes/GameUI.scene')
         this._playerCrl.playRun(true)
         this.createPole()
-        this.isStartGame = true
         // let pp = this._pole.transform.position.clone()
         // pp.y = 1.11
         // pp.z = 0.64
         // this._pole.transform.position = pp
     }
 
-    maxPlaneCount: number = 2
+    maxPlaneCount: number = 5
     createLevel() {
         this._roadNode = this._levelNode.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
         this._buildingNode = this._levelNode.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
@@ -165,8 +168,10 @@ export default class GameLogic {
 
         for (let i = 0; i < this.maxPlaneCount; i++) {
             let rId: number = Utility.GetRandom(1, 3)
+            if (i == 0) {
+                rId = 1
+            }
             let name = 'Road_0' + rId + '.lh'
-            if (i == 0) name = 'Road_01.lh'
             if (i == this.maxPlaneCount - 1) name = 'Road_Finish.lh'
             let road = Utility.getSprite3DResByUrl(name, this._roadNode)
             road.transform.position = new Laya.Vector3(0, i * -30, 20 + i * 100)
@@ -187,8 +192,10 @@ export default class GameLogic {
             }
 
             if (i < this.maxPlaneCount - 1) {
-                let bar = Utility.getSprite3DResByUrl('Bar_01.lh', road)
-                let rPos = road.transform.position.clone()
+                let bar = Utility.getSprite3DResByUrl('Bar_01.lh', road);
+                (bar.getChildByName('SparkFX1') as Laya.ShuriKenParticle3D).active = false;
+                (bar.getChildByName('SparkFX2') as Laya.ShuriKenParticle3D).active = false;
+                let rPos = road.transform.position.clone();
                 rPos.y -= 0.4
                 rPos.z += 32.5
                 bar.transform.position = rPos
@@ -209,10 +216,28 @@ export default class GameLogic {
     }
 
     createProp(rId: number, road: Laya.Sprite3D, max: number = 10) {
-        let rootNode = road.addChild(new Laya.Sprite3D())
+        let rootNode: Laya.Sprite3D = road.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
         let dataArr: any[] = [].concat(PlayerDataMgr['roadArr' + rId])
-        let index = Utility.GetRandom(1, max)
-        let data = dataArr[index]
+        let index = Utility.GetRandom(0, max - 1)
+        let data: any[] = dataArr[index]
+        for (let i = 0; i < data.length; i++) {
+            let name: string = data[i].name
+            let pos = new Laya.Vector3(Number(data[i].position.x), Number(data[i].position.y) + road.transform.position.y, Number(data[i].position.z))
+            let scale = new Laya.Vector3(Number(data[i].scale.x), Number(data[i].scale.y), Number(data[i].scale.z))
+            if (name.search('PropPole') != -1) {
+                this.createPropPole(rootNode, pos.clone())
+            } else if (name.search('Saw') != -1) {
+                this.createSaw(rootNode, pos.clone())
+            } else if (name.search('Jewel') != -1) {
+                this.createJewel(rootNode, pos.clone())
+            } else if (name.search('Wall') != -1) {
+                let id = 1
+                if (name.search('1') != -1) id = 1
+                else if (name.search('2') != -1) id = 2
+                else if (name.search('3') != -1) id = 3
+                this.createWall(id, rootNode, pos.clone(), scale.clone())
+            }
+        }
     }
 
     createPole() {
@@ -247,7 +272,8 @@ export default class GameLogic {
     createJewel(root: Laya.Sprite3D, pos: Laya.Vector3) {
         let jewel = Utility.getSprite3DResByUrl('Jewel_01.lh', root)
         jewel.transform.position = pos
-        this._collisionArr.push(jewel)
+        jewel.addComponent(Jewel)
+        //this._collisionArr.push(jewel)
     }
     createWall(id: number, root: Laya.Sprite3D, pos: Laya.Vector3, scale: Laya.Vector3) {
         let wall = Utility.getSprite3DResByUrl('Wall_0' + id + '.lh', root)
@@ -261,11 +287,13 @@ export default class GameLogic {
         let des: Laya.Sprite3D = this._desArr[0]
         Utility.TmoveToYZ(this._player, 3000, des.transform.position.clone(), () => {
             if (this.isGameOver) return
+            this._playerCrl.activeLandFX()
             this.isFlying = false
             this._playerCrl._ani.speed = 1
             this._playerCrl.playRun()
             this._barArr.splice(0, 1)
         })
+        this._desArr[0].destroy()
         this._desArr.splice(0, 1)
     }
 
@@ -276,17 +304,9 @@ export default class GameLogic {
 
         this._pole.destroy()
         this._playerCrl.playDance()
-    }
 
-    showFinish() {
-        JJMgr.instance.openScene(SceneDir.SCENE_FULLGAMEUI, true, {
-            continueCallbackFun: () => {
-                JJMgr.instance.openScene(SceneDir.SCENE_RECOMMENDUI, true, {
-                    closeCallbackFun: () => {
-                        Laya.Scene.open('MyScenes/FinishUI.scene', true)
-                    }
-                })
-            }
+        Laya.timer.once(2000, this, () => {
+            Laya.Scene.open('MyScenes/FinishUI.scene')
         })
     }
 
@@ -303,6 +323,10 @@ export default class GameLogic {
             p.y -= 50
             Utility.TmoveTo(this._player, 15000, p, null)
         }
+
+        Laya.timer.once(2000, this, () => {
+            Laya.Scene.open('MyScenes/FinishUI.scene')
+        })
     }
 
     activeRoad() {
@@ -323,6 +347,7 @@ export default class GameLogic {
         this.isWin = false
         this.totalDistance = 0
         this._score = 0
+        this._coinCount = 0
         this.isPause = false
         this._collisionArr = []
         this._desArr = []
@@ -334,5 +359,6 @@ export default class GameLogic {
         this._camera.transform.position = this.camStartPos
         this._camera.transform.rotation = this.camStartRotation
 
+        this.createLevel()
     }
 }

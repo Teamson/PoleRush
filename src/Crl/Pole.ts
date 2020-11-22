@@ -87,7 +87,7 @@ export default class Pole extends Laya.Script {
 
     onUpdate() {
         if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) return
-
+        GameLogic.Share.fixCameraField()
         this.checkCollision()
     }
 }

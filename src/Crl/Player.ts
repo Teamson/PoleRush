@@ -13,6 +13,14 @@ export default class Player extends Laya.Script {
     speed: number = 0.2
     roadEdge: number = 11
 
+    trail1: Laya.ShuriKenParticle3D = null
+    trail2: Laya.ShuriKenParticle3D = null
+    trail3: Laya.ShuriKenParticle3D = null
+    trail4: Laya.ShuriKenParticle3D = null
+    trail5: Laya.ShuriKenParticle3D = null
+    trail6: Laya.ShuriKenParticle3D = null
+    LandFX: Laya.ShuriKenParticle3D = null
+
     onEnable() {
         this.myOwner = this.owner as Laya.Sprite3D
         this._ani = this.owner.getComponent(Laya.Animator)
@@ -22,6 +30,19 @@ export default class Player extends Laya.Script {
         let pos = this.getMyPos()
         pos.x -= 1
         this.myOwner.transform.position = pos;
+
+        this.trail1 = this.myOwner.getChildByName('Trail1') as Laya.ShuriKenParticle3D
+        this.trail2 = this.myOwner.getChildByName('Trail2') as Laya.ShuriKenParticle3D
+        this.trail3 = this.myOwner.getChildByName('Trail3') as Laya.ShuriKenParticle3D
+        this.trail4 = this.myOwner.getChildByName('Trail4') as Laya.ShuriKenParticle3D
+        this.trail5 = this.myOwner.getChildByName('Trail5') as Laya.ShuriKenParticle3D
+        this.trail6 = this.myOwner.getChildByName('Trail6') as Laya.ShuriKenParticle3D
+        this.LandFX = this.myOwner.getChildByName('LandFX') as Laya.ShuriKenParticle3D
+
+        for (let i = 1; i <= 6; i++) {
+            this['trail' + i].active = i - 1 == PlayerDataMgr.getPlayerData().msId
+        }
+        this.LandFX.active = false
     }
 
     onDisable() {
@@ -63,6 +84,14 @@ export default class Player extends Laya.Script {
         this._ani.play('dance')
     }
 
+    activeLandFX() {
+        this.LandFX.active = true
+        this.LandFX.particleSystem.play()
+        Laya.timer.once(1000, this, () => {
+            this.LandFX.active = false
+        })
+    }
+
     moveX(dtX: number) {
         if (GameLogic.Share.isGameOver || this.isDied) {
             return
@@ -96,6 +125,8 @@ export default class Player extends Laya.Script {
                     this.myOwner.transform.translate(new Laya.Vector3(0, -0.5, 0), false)
                     this.playHang()
                 } else if (c.name.search('ExitArea') != -1) {
+                    GameLogic.Share._barArr[0].getChildByName('SparkFX1').active = false
+                    GameLogic.Share._barArr[0].getChildByName('SparkFX2').active = false;
                     GameLogic.Share.moveToDes()
                     this._ani.speed = 0
                     c.removeSelf()
@@ -116,9 +147,19 @@ export default class Player extends Laya.Script {
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'hang' && !GameLogic.Share.isFlying) {
             if (GameLogic.Share._poleCrl.max.transform.position.x < GameLogic.Share._barArr[0].transform.position.x + 2.5 ||
                 GameLogic.Share._poleCrl.min.transform.position.x > GameLogic.Share._barArr[0].transform.position.x - 2.5) {
+                GameLogic.Share._barArr[0].getChildByName('SparkFX1').active = false
+                GameLogic.Share._barArr[0].getChildByName('SparkFX2').active = false;
                 GameLogic.Share.loseCB(true)
                 return
             }
+            GameLogic.Share._barArr[0].getChildByName('SparkFX1').active = true
+            GameLogic.Share._barArr[0].getChildByName('SparkFX2').active = true;
+            let p1 = (GameLogic.Share._barArr[0].getChildByName('SparkFX1') as Laya.ShuriKenParticle3D).transform.position.clone();
+            p1.z = this.myOwner.transform.position.z + 1.5;
+            let p2 = (GameLogic.Share._barArr[0].getChildByName('SparkFX2') as Laya.ShuriKenParticle3D).transform.position.clone();
+            p2.z = this.myOwner.transform.position.z + 1.5;
+            (GameLogic.Share._barArr[0].getChildByName('SparkFX1') as Laya.ShuriKenParticle3D).transform.position = p1;
+            (GameLogic.Share._barArr[0].getChildByName('SparkFX2') as Laya.ShuriKenParticle3D).transform.position = p2;
         }
 
         if (!GameLogic.Share.isFlying) {

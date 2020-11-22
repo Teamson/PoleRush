@@ -1,8 +1,8 @@
-import Utility from "../Mod/Utility"
 import GameLogic from "./GameLogic"
+import Utility from "../Mod/Utility"
 import GameUI from "../View/GameUI"
 
-export default class PropPole extends Laya.Script {
+export default class Jewel extends Laya.Script {
     constructor() {
         super()
     }
@@ -19,11 +19,11 @@ export default class PropPole extends Laya.Script {
     onUpdate() {
         if (!GameLogic.Share.isStartGame || GameLogic.Share.isGameOver) return
 
-        let mbb = Utility.getBoundBox(this.myOwner.getChildAt(0) as Laya.Sprite3D)
+        let mbb = Utility.getBoundBox(this.myOwner as Laya.Sprite3D)
         let obb = GameLogic.Share._poleCrl.getMyBound()
         if (Laya.CollisionUtils.intersectsBoxAndBox(mbb, obb)) {
-            GameLogic.Share._poleCrl.scalePole(1)
-            GameUI.Share.fixAddScore()
+            GameLogic.Share._coinCount++
+            GameUI.Share.fixJewelIcon(this.myOwner)
             this.myOwner.destroy()
         }
     }

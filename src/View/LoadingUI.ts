@@ -90,6 +90,8 @@ export default class LoadingUI extends Laya.Scene {
             WxApi.UnityPath + 'Road_Finish.lh',
             WxApi.UnityPath + 'Saw_01.lh',
             WxApi.UnityPath + 'Wall_01.lh',
+            WxApi.UnityPath + 'Wall_02.lh',
+            WxApi.UnityPath + 'Wall_03.lh',
             WxApi.UnityPath + 'Cyl_01.lh',
             WxApi.UnityPath + 'PropPole.lh'
         ];

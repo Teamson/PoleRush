@@ -6,17 +6,17 @@ export class ModelPos {
     }
 
     getV3() {
-        return new Laya.Vector3(this.x, this.y, this.z);
+        return new Laya.Vector3(Number(this.x), Number(this.y), Number(this.z));
     }
 
-    x: number;
-    y: number;
-    z: number;
+    x: Number;
+    y: Number;
+    z: Number;
 }
 
 export class PlayerData {
     grade: number = 1
-    coin: number = 0
+    coin: number = 90000
     skinId: number = 0
     skinArr: number[] = [1, 0, 0, 0, 0]
     msId: number = 0

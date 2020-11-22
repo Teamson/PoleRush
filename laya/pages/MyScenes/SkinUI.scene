@@ -2,9 +2,9 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":72,
+    "selecteID":74,
     "searchKey":"Scene",
-    "props":{"width":750,"sceneColor":"#000000","height":1624},
+    "props":{"width":750,"sceneColor":"#000000","runtime":"View/SkinUI.ts","height":1624},
     "nodeParent":-1,
     "maxID":75,
     "label":"Scene",
@@ -21,13 +21,14 @@
             "props":{"y":50,"x":25,"skin":"startUI/zy_zsbg_1.png","name":"coinNode"},
             "nodeParent":2,
             "label":"coinNode",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":72,
             "child":[
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite",
                     "props":{"y":6,"x":9,"texture":"startUI/zy_zs_1.png"},
@@ -41,6 +42,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"FontClip",
                     "searchKey":"FontClip,coinNum",
                     "props":{"y":29,"x":127,"var":"coinNum","value":"0","skin":"startUI/zy_sz_2.png","sheet":"0123456789","anchorY":0.5,"anchorX":0.5},
@@ -61,13 +63,14 @@
             "props":{"y":1624,"x":375,"skin":"skinUI/tw_bg_1.png","name":"bottomNode","bottom":0,"anchorY":1,"anchorX":0.5},
             "nodeParent":2,
             "label":"bottomNode",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":3,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,skinBtn",
                     "props":{"y":6,"x":170,"var":"skinBtn","skin":"skinUI/tw_yq_2.png","anchorY":1,"anchorX":0.5},
@@ -94,6 +97,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,motionBtn",
                     "props":{"y":6,"x":400,"var":"motionBtn","skin":"skinUI/tw_yq_4.png","anchorY":1,"anchorX":0.5},
@@ -120,6 +124,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,backBtn",
                     "props":{"y":7,"x":670,"var":"backBtn","skin":"skinUI/tw_btn_1.png","anchorY":1,"anchorX":0.5},
@@ -133,21 +138,23 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,useBtn",
                     "props":{"y":610,"x":215,"var":"useBtn","skin":"skinUI/tw_btn_3.png","anchorY":0.5,"anchorX":0.5},
                     "nodeParent":3,
                     "label":"useBtn",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":10,
                     "child":[
                         {
+                            "x":45,
                             "type":"FontClip",
                             "searchKey":"FontClip,costNum",
-                            "props":{"y":42,"x":100,"var":"costNum","value":"1000","skin":"startUI/zy_sz_2.png","sheet":"0123456789","scaleY":1.2,"scaleX":1.2,"anchorY":0.5,"anchorX":0.5},
+                            "props":{"y":42,"x":100,"visible":false,"var":"costNum","value":"3000","spaceX":-5,"skin":"skinUI/tw_sz_1.png","sheet":"0123456789","scaleY":1,"scaleX":1,"anchorY":0.5,"anchorX":0.5},
                             "nodeParent":10,
                             "label":"costNum",
                             "isDirectory":false,
@@ -159,6 +166,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,adBtn",
                     "props":{"y":610,"x":548,"var":"adBtn","skin":"skinUI/tw_btn_5.png","anchorY":0.5,"anchorX":0.5},
@@ -185,9 +193,10 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,itemNode",
-                    "props":{"name":"itemNode"},
+                    "props":{"var":"itemNode"},
                     "nodeParent":3,
                     "label":"itemNode",
                     "isOpen":true,
@@ -197,18 +206,20 @@
                     "compId":15,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":160,"x":140,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},
                             "nodeParent":15,
                             "label":"item",
-                            "isOpen":false,
+                            "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":true,
                             "hasChild":true,
                             "compId":16,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,icon",
                                     "props":{"y":100,"x":104,"skin":"skinUI/pf_js_1.png","name":"icon","anchorY":0.5,"anchorX":0.5},
@@ -222,6 +233,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,choose",
                                     "props":{"skin":"skinUI/tw_xz_1.png","name":"choose"},
@@ -235,6 +247,7 @@
                                         ]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,tips",
                                     "props":{"y":200,"x":104,"skin":"skinUI/tw_syz_1.png","name":"tips","anchorY":0.5,"anchorX":0.5},
@@ -249,6 +262,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":160,"x":375,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},
@@ -301,6 +315,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":160.5,"x":608.5,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},
@@ -353,6 +368,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":423,"x":140,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},
@@ -405,6 +421,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":423,"x":375,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},
@@ -457,6 +474,7 @@
                                 }]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,item",
                             "props":{"y":423,"x":608,"skin":"skinUI/pf_wyy_1.png","name":"item","anchorY":0.5,"anchorX":0.5},

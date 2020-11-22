@@ -256,7 +256,7 @@ export default class Utility {
         let am = amount;
         for (var i = 0; i < amount; i++) {
             let coin = Laya.Pool.getItemByClass("coin", Laya.Image);
-            coin.skin = "mainUI/sy-jb.png";
+            coin.skin = "startUI/zy_zs_1.png";
             coin.x = startPos.x;
             coin.y = startPos.y;
             parent.addChild(coin);

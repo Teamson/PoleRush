@@ -14,6 +14,7 @@ import FinishUI from "./View/FinishUI"
 import GameUI from "./View/GameUI"
 import LoadingUI from "./View/LoadingUI"
 import MadUI from "./View/MadUI"
+import SkinUI from "./View/SkinUI"
 import StartUI from "./View/StartUI"
 /*
 * 游戏初始化配置;
@@ -25,7 +26,7 @@ export default class GameConfig{
     static screenMode:string="vertical";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="MyScenes/StartUI.scene";
+    static startScene:any="MyScenes/FinishUI.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -49,6 +50,7 @@ export default class GameConfig{
         reg("View/GameUI.ts",GameUI);
         reg("View/LoadingUI.ts",LoadingUI);
         reg("View/MadUI.ts",MadUI);
+        reg("View/SkinUI.ts",SkinUI);
         reg("View/StartUI.ts",StartUI);
     }
 }

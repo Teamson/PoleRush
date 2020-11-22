@@ -12,8 +12,9 @@ export default class StartUI extends Laya.Scene {
     }
 
     gradeNum: Laya.Label
-    coinNum: Laya.Label
+    coinNum: Laya.FontClip
     startBtn: Laya.Image
+    skinBtn: Laya.Image
 
     drawBtn: Laya.Image
     moreGameBtn: Laya.Image
@@ -25,6 +26,7 @@ export default class StartUI extends Laya.Scene {
     onOpened() {
         this.gradeNum.text = PlayerDataMgr.getPlayerData().grade.toString()
         this.startBtn.on(Laya.Event.MOUSE_UP, this, this.startBtnCB)
+        this.skinBtn.on(Laya.Event.MOUSE_UP, this, this.skinBtnCB)
         Laya.timer.frameLoop(1, this, this.updateCB)
 
         // this.drawBtn.on(Laya.Event.CLICK, this, this.drawBtnCB)
@@ -95,6 +97,9 @@ export default class StartUI extends Laya.Scene {
         //     cb()
         // }
     }
+    skinBtnCB() {
+        Laya.Scene.open('MyScenes/SkinUI.scene')
+    }
 
     moreGameBtnCB() {
         AdMgr.instance.hideBanner()
@@ -112,6 +117,6 @@ export default class StartUI extends Laya.Scene {
     }
 
     updateCB() {
-        this.coinNum.text = PlayerDataMgr.getPlayerData().coin.toString()
+        this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
     }
 }

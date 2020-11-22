@@ -3,6 +3,7 @@ import JJMgr, { SceneDir } from "../JJExport/Common/JJMgr"
 import PlayerDataMgr from "../Libs/PlayerDataMgr"
 import WxApi from "../Libs/WxApi"
 import AdMgr from "../Mod/AdMgr"
+import ShareMgr from "../Mod/ShareMgr"
 
 export default class FinishUI extends Laya.Scene {
     constructor() {
@@ -20,6 +21,7 @@ export default class FinishUI extends Laya.Scene {
 
     onOpened(param) {
         this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
+        this.bounesNum.value = GameLogic.Share.isWin ? (GameLogic.Share._coinCount + GameLogic.Share._score).toString() : '0'
         this.winTitle.visible = GameLogic.Share.isWin
         this.loseTitle.visible = !GameLogic.Share.isWin
         this.trippleBtn.visible = GameLogic.Share.isWin
@@ -38,18 +40,34 @@ export default class FinishUI extends Laya.Scene {
     }
 
     trippleBtnCB() {
-
+        let cb = () => {
+            PlayerDataMgr.getPlayerData().coin += parseInt(this.bounesNum.value) * 3
+            this.back()
+        }
+        ShareMgr.instance.shareGame(cb)
     }
 
     skipBtnCB() {
-
+        let cb = () => {
+            PlayerDataMgr.getPlayerData().grade++
+            this.back()
+        }
+        ShareMgr.instance.shareGame(cb)
     }
 
     normalBtnCB() {
-
+        PlayerDataMgr.getPlayerData().coin += parseInt(this.bounesNum.value)
+        PlayerDataMgr.getPlayerData().grade++
+        this.back()
     }
 
     restartBtnCB() {
+        this.back()
+    }
 
+    back() {
+        PlayerDataMgr.setPlayerData()
+        Laya.Scene.open('MyScenes/StartUI.scene')
+        GameLogic.Share.restartGame()
     }
 }
