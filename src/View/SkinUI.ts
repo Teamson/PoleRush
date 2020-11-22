@@ -1,6 +1,8 @@
 import PlayerDataMgr from "../Libs/PlayerDataMgr"
 import WxApi from "../Libs/WxApi"
 import ShareMgr from "../Mod/ShareMgr"
+import Utility from "../Mod/Utility"
+import GameLogic from "../Crl/GameLogic"
 
 export default class SkinUI extends Laya.Scene {
     constructor() {
@@ -27,11 +29,83 @@ export default class SkinUI extends Laya.Scene {
         this.adBtn.on(Laya.Event.CLICK, this, this.adBtnCB)
         this.backBtn.on(Laya.Event.CLICK, this, this.backBtnCB)
 
+        this.init3DScene()
         this.skinBtnCB()
     }
 
     onClosed() {
+        Laya.timer.clearAll(this)
+        this.scene3D.destroy()
+        GameLogic.Share._camera.active = true
+    }
 
+    scene3D: Laya.Scene3D = null
+    light = null
+    camera = null
+    player: Laya.Sprite3D = null
+    skinScene: Laya.Sprite3D = null
+    init3DScene() {
+        this.scene3D = Laya.stage.addChild(new Laya.Scene3D()) as Laya.Scene3D;
+        Laya.stage.setChildIndex(this.scene3D, 0)
+        this.light = this.scene3D.addChild(new Laya.DirectionLight()) as Laya.DirectionLight;
+        this.light.color = new Laya.Vector3(1, 0.956, 0.839);
+        //this.light.transform.rotate(new Laya.Vector3(0, 0, 0), true, false);
+
+        this.camera = this.scene3D.addChild(new Laya.Camera(0, 0.1, 1000)) as Laya.Camera;
+        this.camera.transform.translate(new Laya.Vector3(0, 0, 0));
+        this.camera.transform.rotate(new Laya.Vector3(-20, 0, 0), true, false);
+        this.camera.clearFlag = Laya.BaseCamera.CLEARFLAG_DEPTHONLY;
+        this.camera.fieldOfView = 90
+        //this.fixCameraField()
+
+        this.skinScene = Utility.getSprite3DResByUrl('Cyl_01.lh', this.scene3D)
+        this.skinScene.transform.position = new Laya.Vector3(0, -2, -15)
+
+        this.player = Utility.getSprite3DResByUrl('Hero_01.lh', this.scene3D);
+        this.player.transform.position = new Laya.Vector3(0, -2, -15);
+        this.player.transform.localScale = new Laya.Vector3(2.5, 2.5, 2.5);
+        (this.player.getComponent(Laya.Animator) as Laya.Animator).play('dance');
+        this.player.getChildByName('LandFX').active = false;
+        this.player.getChildByName('Trail1').active = false;
+        this.player.getChildByName('Trail2').active = false;
+        this.player.getChildByName('Trail3').active = false;
+        this.player.getChildByName('Trail4').active = false;
+        this.player.getChildByName('Trail5').active = false;
+        this.player.getChildByName('Trail6').active = false;
+    }
+
+    trailMode() {
+        (this.player.getComponent(Laya.Animator) as Laya.Animator).play('run');
+        Utility.RotateTo(this.player, 100, new Laya.Vector3(0, 90, 0), () => { });
+        this.activeTrail(this.chooseId)
+        Laya.timer.frameLoop(1, this, this.playerMove)
+    }
+    activeTrail(index: number) {
+        this.player.getChildByName('Trail1').active = false;
+        this.player.getChildByName('Trail2').active = false;
+        this.player.getChildByName('Trail3').active = false;
+        this.player.getChildByName('Trail4').active = false;
+        this.player.getChildByName('Trail5').active = false;
+        this.player.getChildByName('Trail6').active = false;
+        if (index >= 0)
+            this.player.getChildByName('Trail' + (index + 1)).active = true;
+    }
+    playerMove() {
+        this.player.transform.translate(new Laya.Vector3(1, 0, 0), false)
+        this.skinScene.transform.translate(new Laya.Vector3(1, 0, 0), false)
+        this.camera.transform.translate(new Laya.Vector3(1, 0, 0), false)
+    }
+
+    skinMode() {
+        (this.player.getComponent(Laya.Animator) as Laya.Animator).play('dance');
+        Utility.RotateTo(this.player, 100, new Laya.Vector3(0, 0, 0), () => { });
+    }
+
+    fixCameraField() {
+        let staticDT: number = 1624 - 1334
+        let curDT: number = Laya.stage.displayHeight - 1334 < 0 ? 0 : Laya.stage.displayHeight - 1334
+        let per = curDT / staticDT * 10
+        this.camera.fieldOfView += per
     }
 
     updateItem() {
@@ -86,6 +160,7 @@ export default class SkinUI extends Laya.Scene {
                 this.costNum.value = '3000'
             }
         } else {
+            this.activeTrail(index)
             if (PlayerDataMgr.getPlayerData().msArr[index] == 1) {
                 //已拥有
                 if (PlayerDataMgr.getPlayerData().msId == index) {
@@ -113,6 +188,9 @@ export default class SkinUI extends Laya.Scene {
         this.skinBtn.skin = 'skinUI/tw_yq_4.png'
         this.motionBtn.skin = 'skinUI/tw_yq_2.png'
         this.updateItem()
+        this.activeTrail(-1)
+        Laya.timer.clearAll(this)
+        this.skinMode()
     }
     motionBtnCB() {
         this.curPage = 1
@@ -122,6 +200,7 @@ export default class SkinUI extends Laya.Scene {
         this.skinBtn.skin = 'skinUI/tw_yq_2.png'
         this.motionBtn.skin = 'skinUI/tw_yq_4.png'
         this.updateItem()
+        this.trailMode()
     }
     useBtnCB() {
         if (this.useBtn.skin == 'skinUI/tw_btn_2.png') {

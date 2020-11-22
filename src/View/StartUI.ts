@@ -98,6 +98,7 @@ export default class StartUI extends Laya.Scene {
         // }
     }
     skinBtnCB() {
+        GameLogic.Share._camera.active = false
         Laya.Scene.open('MyScenes/SkinUI.scene')
     }
 
