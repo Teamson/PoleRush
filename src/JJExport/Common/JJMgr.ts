@@ -46,7 +46,7 @@ export default class JJMgr {
     }
     navDataArr: any[] = []
 
-    JJConfigUrl: string = 'https://wxhy.jiujiuhuyu.com/m/tqxiaonengshou/config.json'
+    JJConfigUrl: string = 'https://wxhy.jiujiuhuyu.com/m/cgchongguan/config.json'
 
     isFinished: boolean = false
 

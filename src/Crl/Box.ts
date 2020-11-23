@@ -1,4 +1,7 @@
+import WxApi from "../Libs/WxApi"
+import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
+import GameUI from "../View/GameUI"
 import GameLogic from "./GameLogic"
 
 export default class Box extends Laya.Script {
@@ -11,6 +14,8 @@ export default class Box extends Laya.Script {
     randX: number = 0
     havaRandX: boolean = false
 
+    isDie: boolean = false
+
     onEnable() {
         this.myOwner = this.owner as Laya.Sprite3D
         this.randX = (Math.random() * 0.3) - 0.15
@@ -21,11 +26,23 @@ export default class Box extends Laya.Script {
     }
 
     onUpdate() {
-        if (!GameLogic.Share.isStartGame || GameLogic.Share.isGameOver) return
+        if (!GameLogic.Share.isStartGame || GameLogic.Share.isGameOver || this.isDie) return
 
         if (this.myOwner.transform.position.z >= GameLogic.Share.totalDistance) {
-            this.myOwner.destroy()
+            // let jewel = Utility.getSprite3DResByUrl('Jewel_01.lh', GameLogic.Share._levelNode)
+            // let p: Laya.Vector3 = this.myOwner.transform.position.clone()
+            // p.z += 5
+            // jewel.transform.position = p.clone()
+            // jewel.transform.localScale = new Laya.Vector3(0.5, 0.5, 0.5)
+            // p.y += 10
+            // Utility.TmoveTo(jewel, 1000, p, () => { jewel.destroy() })
+            GameUI.Share.fixJewelIcon(this.myOwner)
+            WxApi.DoVibrate(false)
+            this.isDie = true
+            this.myOwner.transform.translate(new Laya.Vector3(0, 0, 1000))
+            //GameLogic.Share.destroyBoxArr.push(this.myOwner)
             GameLogic.Share._score++
+            GameLogic.Share.setScorePlane()
             return
         }
 

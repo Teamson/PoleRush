@@ -14,9 +14,10 @@ export default class GameUI extends Laya.Scene {
 
     touchBtn: Laya.Image
     gradeNum: Laya.Label
-    coinNum: Laya.Label
+    coinNum: Laya.FontClip
     curGrade: Laya.Label
     gBar: Laya.ProgressBar
+    guideAni: Laya.Animation
 
     touchStartX: number = 0
     touchPreX: number = 0
@@ -26,7 +27,7 @@ export default class GameUI extends Laya.Scene {
 
     onOpened() {
         GameUI.Share = this
-        GameLogic.Share.isStartGame = true
+        //GameLogic.Share.isStartGame = true
         this.gradeNum.text = PlayerDataMgr.getPlayerData().grade.toString()
         this.curGrade.text = PlayerDataMgr.getPlayerData().grade.toString()
         this.touchBtn.on(Laya.Event.MOUSE_DOWN, this, this.touchBtnDownCB)
@@ -59,6 +60,13 @@ export default class GameUI extends Laya.Scene {
     }
 
     touchBtnDownCB(event: Laya.Event) {
+        if (!GameLogic.Share.isStartGame) {
+            GameLogic.Share.isStartGame = true
+            this.guideAni.visible = false
+            GameLogic.Share._playerCrl._ani.speed = 1.5
+            GameLogic.Share._playerCrl.SpeedFX.active = true
+        }
+
         if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) return
 
         this.touching = true
@@ -82,7 +90,7 @@ export default class GameUI extends Laya.Scene {
 
     updateCB() {
         this.gBar.value = GameLogic.Share._player.transform.position.z / GameLogic.Share.totalDistance
-        this.coinNum.text = PlayerDataMgr.getPlayerData().coin.toString()
+        this.coinNum.value = PlayerDataMgr.getPlayerData().coin.toString()
     }
 
     fixJewelIcon(jewel: Laya.Sprite3D) {
@@ -112,6 +120,42 @@ export default class GameUI extends Laya.Scene {
         j.pos(op.x / Laya.stage.clientScaleX, op.y / Laya.stage.clientScaleY)
         this.addChild(j)
         Utility.tMove2D(j, j.x, j.y - 50, 500, () => { j.removeSelf() })
+    }
+
+    canShowTips: boolean = true
+    showTips(index: number) {
+        if (!this.canShowTips) return
+        this.canShowTips = false
+        Laya.timer.once(2000, this, () => { this.canShowTips = true })
+
+        let str: string = ''
+        switch (index) {
+            case 1:
+                str = 'Die' + Utility.GetRandom(1, 3) + '.png'
+                break
+            case 2:
+                str = 'Short' + Utility.GetRandom(1, 3) + '.png'
+                break
+            case 3:
+                str = 'Longer' + Utility.GetRandom(1, 3) + '.png'
+                break
+            case 4:
+                str = 'Jewel' + Utility.GetRandom(1, 3) + '.png'
+                break
+        }
+        let tips: Laya.Image = new Laya.Image('gameUI/' + str)
+        tips.anchorX = 0.5
+        tips.anchorY = 0.5
+        tips.pos(375, 400)
+        this.addChild(tips)
+
+        Utility.scaleTo2D(tips, 1.3, 500, () => {
+            Utility.scaleTo2D(tips, 1, 500, () => {
+                Utility.alphaTo2D(tips, 0, 1000, () => {
+                    tips.removeSelf()
+                })
+            })
+        })
     }
 
     initNav() {

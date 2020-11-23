@@ -38,11 +38,13 @@ export default class GameLogic {
     public _barArr: Laya.Sprite3D[] = []
     public _boxNode: Laya.Sprite3D = null
     public _finish: Laya.Sprite3D = null
+    public _scorePlane: Laya.MeshSprite3D = null
 
     public _coinCount: number = 0
     public _score: number = 0
     public totalDistance: number = 0
     public isDes: boolean = false
+    public startCamField: number = 80
 
     public isFlying: boolean = false
     public isStartGame: boolean = false
@@ -51,7 +53,7 @@ export default class GameLogic {
     public isPause: boolean = false
 
     constructor() {
-        localStorage.clear()
+        //localStorage.clear()
         GameLogic.Share = this
         //AdMgr.instance.initAd()
         //初始化预制体单例
@@ -59,28 +61,26 @@ export default class GameLogic {
         //new TimeCountMgr()
         PlayerDataMgr.getPlayerData()
 
-        // JJMgr.instance.initJJ(WxApi.version, () => {
-        //     ShareMgr.instance.initShare()
-        //     //获取场景值
-        //     if (Laya.Browser.onWeiXin) {
-        //         WxApi.sceneId = WxApi.GetLaunchPassVar().scene
-        //         console.log('sceneId:', WxApi.sceneId)
-        //     }
-        //     WxApi.calculateShareNumber()
+        JJMgr.instance.initJJ(WxApi.version, () => {
+            ShareMgr.instance.initShare()
+            //获取场景值
+            if (Laya.Browser.onWeiXin) {
+                WxApi.sceneId = WxApi.GetLaunchPassVar().scene
+                console.log('sceneId:', WxApi.sceneId)
+            }
+            WxApi.calculateShareNumber()
 
-        //     SoundMgr.instance.initLoading(() => {
-        //         Laya.Scene.open('MyScenes/LoadingUI.scene')
-        //     })
-        // })
-        // WxApi.WxOnHide(() => {
-        //     PlayerDataMgr.setExitTime()
-        //     localStorage.setItem('lastDate', new Date().getDate().toString())
-        //     localStorage.setItem('front_share_number', WxApi.front_share_number.toString())
-        // })
+            SoundMgr.instance.initLoading(() => {
+                Laya.Scene.open('MyScenes/LoadingUI.scene')
+            })
+        })
+        WxApi.WxOnHide(() => {
+            PlayerDataMgr.setExitTime()
+            localStorage.setItem('lastDate', new Date().getDate().toString())
+            localStorage.setItem('front_share_number', WxApi.front_share_number.toString())
+        })
 
-        // Laya.timer.frameLoop(1, this, this.activeRoad)
-
-        Laya.Scene.open('MyScenes/LoadingUI.scene')
+        Laya.timer.frameLoop(1, this, this.activeRoad)
     }
 
     initScene() {
@@ -97,6 +97,7 @@ export default class GameLogic {
         //this.fixCameraField()
         this.camStartPos = this._camera.transform.position.clone()
         this.camStartRotation = this._camera.transform.rotation.clone()
+        this._camera.fieldOfView = this.startCamField
 
         this._levelNode = new Laya.Sprite3D()
 
@@ -105,6 +106,9 @@ export default class GameLogic {
         this.createLevel()
 
         this.setFog()
+
+        Laya.timer.frameLoop(1, this, this.fixCameraField)
+        Laya.timer.frameLoop(1, this, this.destroyBox)
     }
 
     fixCameraField() {
@@ -112,8 +116,22 @@ export default class GameLogic {
         // let curDT: number = Laya.stage.displayHeight - 1334 < 0 ? 0 : Laya.stage.displayHeight - 1334
         // let per = curDT / staticDT * 10
         // this._camera.fieldOfView = 90 + per
-        if (this._pole)
-            this._camera.fieldOfView = 100 + this._pole.transform.localScaleX
+        if (this._pole && this.isStartGame && !this.isGameOver) {
+            if (this._camera.fieldOfView < this.startCamField + this._pole.transform.localScaleX + 5) {
+                this._camera.fieldOfView += 0.1
+            } else if (this._camera.fieldOfView > this.startCamField + this._pole.transform.localScaleX + 5) {
+                this._camera.fieldOfView -= 0.1
+            }
+        } else if (this.isGameOver) {
+            if (this._camera.fieldOfView < this.startCamField) {
+                this._camera.fieldOfView += 0.5
+            } else if (this._camera.fieldOfView > this.startCamField) {
+                this._camera.fieldOfView -= 0.5
+            }
+            if (Math.abs(this._camera.fieldOfView - this.startCamField) < 2)
+                this._camera.fieldOfView = this.startCamField
+        }
+        //this._camera.fieldOfView = this.startCamField + this._pole.transform.localScaleX
     }
 
     setFog() {
@@ -150,6 +168,8 @@ export default class GameLogic {
     gameStart() {
         Laya.Scene.open('MyScenes/GameUI.scene')
         this._playerCrl.playRun(true)
+        this._playerCrl._ani.speed = 0
+        this._playerCrl.SpeedFX.active = false
         this.createPole()
         // let pp = this._pole.transform.position.clone()
         // pp.y = 1.11
@@ -157,8 +177,17 @@ export default class GameLogic {
         // this._pole.transform.position = pp
     }
 
-    maxPlaneCount: number = 5
+    maxPlaneCount: number = 2
     createLevel() {
+        if (PlayerDataMgr.getPlayerData().grade == 1) {
+            this.maxPlaneCount = 2
+        }
+        else if (PlayerDataMgr.getPlayerData().grade < 4) {
+            this.maxPlaneCount = PlayerDataMgr.getPlayerData().grade + 1
+        } else {
+            this.maxPlaneCount = 4
+        }
+
         this._roadNode = this._levelNode.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
         this._buildingNode = this._levelNode.addChild(new Laya.Sprite3D()) as Laya.Sprite3D
 
@@ -187,6 +216,9 @@ export default class GameLogic {
             if (i == this.maxPlaneCount - 1) {
                 this._boxNode = road.getChildByName('BoxNode') as Laya.Sprite3D
                 this._finish = road.getChildByName('Finish') as Laya.Sprite3D
+                this._scorePlane = road.getChildByName('ScorePlane') as Laya.MeshSprite3D
+                this.initPlane()
+                this.setScorePlane()
                 this.totalDistance = this._finish.transform.position.z
                 this.createBox()
             }
@@ -205,7 +237,9 @@ export default class GameLogic {
                 this._collisionArr.push(bar.getChildAt(3) as Laya.Sprite3D)
                 this._barArr.push(bar)
 
-                this.createProp(rId, road, i == 0 ? 5 : 10)
+                let max = 10
+                if (i == 0 || PlayerDataMgr.getPlayerData().grade < 4) max = 5
+                this.createProp(rId, road, max)
             }
         }
 
@@ -222,7 +256,7 @@ export default class GameLogic {
         let data: any[] = dataArr[index]
         for (let i = 0; i < data.length; i++) {
             let name: string = data[i].name
-            let pos = new Laya.Vector3(Number(data[i].position.x), Number(data[i].position.y) + road.transform.position.y, Number(data[i].position.z))
+            let pos = new Laya.Vector3(Number(data[i].position.x), Number(data[i].position.y), Number(data[i].position.z))
             let scale = new Laya.Vector3(Number(data[i].scale.x), Number(data[i].scale.y), Number(data[i].scale.z))
             if (name.search('PropPole') != -1) {
                 this.createPropPole(rootNode, pos.clone())
@@ -261,23 +295,23 @@ export default class GameLogic {
     createPropPole(root: Laya.Sprite3D, pos: Laya.Vector3) {
         let pole = Utility.getSprite3DResByUrl('PropPole.lh', root)
         pos.y = 1.11
-        pole.transform.position = pos
+        pole.transform.localPosition = pos
         pole.addComponent(PropPole)
     }
     createSaw(root: Laya.Sprite3D, pos: Laya.Vector3) {
         let saw = Utility.getSprite3DResByUrl('Saw_01.lh', root)
-        saw.transform.position = pos
+        saw.transform.localPosition = pos
         this._collisionArr.push(saw)
     }
     createJewel(root: Laya.Sprite3D, pos: Laya.Vector3) {
         let jewel = Utility.getSprite3DResByUrl('Jewel_01.lh', root)
-        jewel.transform.position = pos
+        jewel.transform.localPosition = pos
         jewel.addComponent(Jewel)
         //this._collisionArr.push(jewel)
     }
     createWall(id: number, root: Laya.Sprite3D, pos: Laya.Vector3, scale: Laya.Vector3) {
         let wall = Utility.getSprite3DResByUrl('Wall_0' + id + '.lh', root)
-        wall.transform.position = pos
+        wall.transform.localPosition = pos
         wall.transform.localScale = scale
         this._collisionArr.push(wall)
     }
@@ -285,16 +319,73 @@ export default class GameLogic {
     moveToDes() {
         this.isFlying = true
         let des: Laya.Sprite3D = this._desArr[0]
-        Utility.TmoveToYZ(this._player, 3000, des.transform.position.clone(), () => {
+        Utility.TmoveToYZ(this._player, 2000, des.transform.position.clone(), () => {
             if (this.isGameOver) return
+            SoundMgr.instance.playSoundEffect('Ground.mp3')
             this._playerCrl.activeLandFX()
             this.isFlying = false
             this._playerCrl._ani.speed = 1
             this._playerCrl.playRun()
             this._barArr.splice(0, 1)
+            //if (this._barArr.length <= 0) this._playerCrl.speed = 0.15
         })
         this._desArr[0].destroy()
         this._desArr.splice(0, 1)
+    }
+
+    mat = null
+    cav = null
+    cxt = null
+    texture2D = null
+    initPlane() {
+        if (this.mat != null) {
+            this._scorePlane.meshRenderer.sharedMaterial = this.mat;
+            this.cxt.clearRect(0, 0, 256, 256)
+            this.cxt.fillText('0', 130, 200, 200);//有填充cxt.font="bold 60px 宋体";
+            this.texture2D.loadImageSource(this.cav);
+            //给材质贴图
+            this.mat.albedoTexture = this.texture2D;
+            return
+        }
+        //材质
+        this.mat = new Laya.UnlitMaterial();
+        this._scorePlane.meshRenderer.sharedMaterial = this.mat;
+        //画布cavans
+        this.cav = Laya.Browser.createElement("canvas");
+        this.cxt = this.cav.getContext("2d");
+        this.cav.width = 256;
+        this.cav.height = 256;
+        this.cxt.fillStyle = 'rgb(' + '255' + ',' + '0' + ',0)';
+        this.cxt.font = "bold 200px 宋体";
+        this.cxt.textAlign = "center";//文本的对齐方式
+        this.cxt.textBaseline = "center";//文本相对于起点的位置
+        //设置文字,位置
+        this.cxt.fillText(this._score.toString(), 130, 200, 200);//有填充cxt.font="bold 60px 宋体";
+
+        this.mat.renderMode = Laya.UnlitMaterial.RENDERMODE_TRANSPARENT;
+        this.texture2D = new Laya.Texture2D(256, 256);
+        (<Laya.BlinnPhongMaterial>this._scorePlane.meshRenderer.sharedMaterial).cull = Laya.RenderState.CULL_NONE;
+    }
+
+    setScorePlane() {
+        if (this._scorePlane) {
+            //设置文字,位置
+            this.cxt.clearRect(0, 0, 256, 256)
+            this.cxt.fillText(this._score.toString(), 130, 200, 200);//有填充cxt.font="bold 60px 宋体";
+            this.texture2D.loadImageSource(this.cav);
+            //给材质贴图
+            this.mat.albedoTexture = this.texture2D;
+        }
+    }
+
+    destroyBoxArr: Laya.Sprite3D[] = []
+    destroyBox() {
+        // if (this.destroyBoxArr.length <= 0) return
+        // this.destroyBoxArr[0].destroy()
+        // this.destroyBoxArr.splice(0, 1)
+        // if (this.destroyBoxArr.length <= 0) return
+        // this.destroyBoxArr[0].destroy()
+        // this.destroyBoxArr.splice(0, 1)
     }
 
     winCB() {
@@ -308,9 +399,23 @@ export default class GameLogic {
         Laya.timer.once(2000, this, () => {
             Laya.Scene.open('MyScenes/FinishUI.scene')
         })
+
+        let angle = this._camera.transform.localRotationEuler.clone()
+        angle.x += 20
+        Utility.RotateTo(this._camera, 2000, angle, null)
+
+        let camp = this._camera.transform.position.clone()
+        camp.y -= 6
+        Utility.TmoveTo(this._camera, 2000, camp, null)
+
+        let pAngle = this._player.transform.localRotationEuler.clone()
+        pAngle.y += 180
+        Utility.RotateTo(this._player, 500, pAngle, null)
     }
 
     loseCB(isFall?: boolean) {
+        WxApi.DoVibrate(false)
+        GameUI.Share.showTips(1)
         this.isGameOver = true
         this.isWin = false
         this.isStartGame = false
@@ -321,7 +426,7 @@ export default class GameLogic {
             this._playerCrl.playFall()
             let p = this._player.transform.position.clone()
             p.y -= 50
-            Utility.TmoveTo(this._player, 15000, p, null)
+            Utility.TmoveTo(this._player, 5000, p, null)
         }
 
         Laya.timer.once(2000, this, () => {
@@ -333,7 +438,7 @@ export default class GameLogic {
         if (!this._roadNode) return
         for (let i = 0; i < this._roadNode.numChildren; i++) {
             let r = this._roadNode.getChildAt(i) as Laya.Sprite3D
-            if (r.transform.position.z < this._player.transform.position.z - 5) {
+            if (r.transform.position.z < this._player.transform.position.z - 100 || r.transform.position.z > this._player.transform.position.z + 100) {
                 r.active = false
             } else {
                 r.active = true
@@ -352,6 +457,9 @@ export default class GameLogic {
         this._collisionArr = []
         this._desArr = []
         this._barArr = []
+        this.destroyBoxArr = []
+        this._camera.fieldOfView = this.startCamField
+        this.isFlying = false
 
         this.isDes = false
 

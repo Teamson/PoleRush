@@ -1,4 +1,5 @@
 import PlayerDataMgr from "../Libs/PlayerDataMgr"
+import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
 import GameLogic from "./GameLogic"
 
@@ -10,7 +11,7 @@ export default class Player extends Laya.Script {
     myOwner: Laya.Sprite3D = null
     _ani: Laya.Animator = null
     isDied: boolean = false
-    speed: number = 0.2
+    speed: number = 0.25
     roadEdge: number = 11
 
     trail1: Laya.ShuriKenParticle3D = null
@@ -20,12 +21,12 @@ export default class Player extends Laya.Script {
     trail5: Laya.ShuriKenParticle3D = null
     trail6: Laya.ShuriKenParticle3D = null
     LandFX: Laya.ShuriKenParticle3D = null
+    SpeedFX: Laya.ShuriKenParticle3D = null
 
     onEnable() {
         this.myOwner = this.owner as Laya.Sprite3D
         this._ani = this.owner.getComponent(Laya.Animator)
         //this._ani.speed = 0
-        this.playIdle()
         this.myOwner.transform.rotate(new Laya.Vector3(0, -90, 0), true, false)
         let pos = this.getMyPos()
         pos.x -= 1
@@ -38,15 +39,25 @@ export default class Player extends Laya.Script {
         this.trail5 = this.myOwner.getChildByName('Trail5') as Laya.ShuriKenParticle3D
         this.trail6 = this.myOwner.getChildByName('Trail6') as Laya.ShuriKenParticle3D
         this.LandFX = this.myOwner.getChildByName('LandFX') as Laya.ShuriKenParticle3D
+        this.SpeedFX = this.myOwner.getChildByName('SpeedFX') as Laya.ShuriKenParticle3D
 
         for (let i = 1; i <= 6; i++) {
             this['trail' + i].active = i - 1 == PlayerDataMgr.getPlayerData().msId
         }
         this.LandFX.active = false
+        this.SpeedFX.active = false
+        this.playIdle()
+        this.changeSkin(PlayerDataMgr.getPlayerData().skinId)
     }
 
     onDisable() {
 
+    }
+
+    refreshTrail() {
+        for (let i = 1; i <= 6; i++) {
+            this['trail' + i].active = i - 1 == PlayerDataMgr.getPlayerData().msId
+        }
     }
 
     getMyPos() {
@@ -54,11 +65,17 @@ export default class Player extends Laya.Script {
     }
 
     playIdle() {
+        this.SpeedFX.active = false
+        this._ani.speed = 1
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'idle') return
+        SoundMgr.instance.stopSound('Run.mp3')
         this._ani.play('idle')
     }
     playRun(reset?: boolean) {
+        this.SpeedFX.active = true
+        this._ani.speed = 1.5
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'run') return
+        SoundMgr.instance.playSoundEffect('Run.mp3', 0)
         if (reset) {
             let pos = this.getMyPos()
             pos.x = 0
@@ -68,19 +85,30 @@ export default class Player extends Laya.Script {
         this._ani.play('run')
     }
     playHang() {
+        this._ani.speed = 1
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'hang') return
+        SoundMgr.instance.stopSound('Run.mp3')
         this._ani.play('hang')
     }
     playFall() {
+        this.SpeedFX.active = false
+        this._ani.speed = 1
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'fall') return
+        SoundMgr.instance.stopSound('Run.mp3')
         this._ani.play('fall')
     }
     playDie() {
+        this.SpeedFX.active = false
+        this._ani.speed = 1
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'die') return
+        SoundMgr.instance.stopSound('Run.mp3')
         this._ani.play('die')
     }
     playDance() {
+        this.SpeedFX.active = false
+        this._ani.speed = 1
         if (this._ani.getControllerLayer().getCurrentPlayState().animatorState.name == 'dance') return
+        SoundMgr.instance.stopSound('Run.mp3')
         this._ani.play('dance')
     }
 
@@ -124,6 +152,7 @@ export default class Player extends Laya.Script {
                 else if (c.name.search('SlideArea') != -1 && this._ani.getControllerLayer().getCurrentPlayState().animatorState.name != 'hang') {
                     this.myOwner.transform.translate(new Laya.Vector3(0, -0.5, 0), false)
                     this.playHang()
+                    SoundMgr.instance.playSoundEffect('Bar.mp3')
                 } else if (c.name.search('ExitArea') != -1) {
                     GameLogic.Share._barArr[0].getChildByName('SparkFX1').active = false
                     GameLogic.Share._barArr[0].getChildByName('SparkFX2').active = false;
@@ -178,5 +207,31 @@ export default class Player extends Laya.Script {
         // } else {
         //     GameLogic.Share._pole.transform.localPosition = new Laya.Vector3(0, 1.11, 0.64)
         // }
+
+        for (let i = 0; i < GameLogic.Share._collisionArr.length; i++) {
+            let c = GameLogic.Share._collisionArr[i]
+            if (c.name.search('Wall') != -1 || c.name.search('Saw') != -1) {
+                let mybb = Utility.getBoundBox(this.myOwner)
+                let obb = Utility.getBoundBox(c)
+                if (Laya.CollisionUtils.intersectsBoxAndBox(mybb, obb)) {
+                    GameLogic.Share.loseCB(false)
+                    return
+                }
+            }
+
+        }
+    }
+
+
+    //切换皮肤
+    changeSkin(id: number) {
+        let mats = new Laya.UnlitMaterial();
+        Laya.Texture2D.load('res/skinRes/Hero_0' + (id + 1) + '.png', Laya.Handler.create(this, (tex) => {
+            mats.albedoTexture = tex;
+        }))
+        for (let i = 0; i < 1; i++) {
+            let mesh3d = this.owner.getChildAt(i) as Laya.SkinnedMeshSprite3D;
+            mesh3d.skinnedMeshRenderer.material = mats;
+        }
     }
 }

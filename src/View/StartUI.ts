@@ -20,13 +20,13 @@ export default class StartUI extends Laya.Scene {
     moreGameBtn: Laya.Image
 
     onAwake() {
-        //SoundMgr.instance.playMusic('Bgm.mp3')
+        SoundMgr.instance.playMusic('Bgm.mp3')
     }
 
     onOpened() {
         this.gradeNum.text = PlayerDataMgr.getPlayerData().grade.toString()
-        this.startBtn.on(Laya.Event.MOUSE_UP, this, this.startBtnCB)
-        this.skinBtn.on(Laya.Event.MOUSE_UP, this, this.skinBtnCB)
+        this.startBtn.on(Laya.Event.CLICK, this, this.startBtnCB)
+        this.skinBtn.on(Laya.Event.CLICK, this, this.skinBtnCB)
         Laya.timer.frameLoop(1, this, this.updateCB)
 
         // this.drawBtn.on(Laya.Event.CLICK, this, this.drawBtnCB)
@@ -66,6 +66,7 @@ export default class StartUI extends Laya.Scene {
 
     hadStart: boolean = false
     startBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         if (this.hadStart) return
         this.hadStart = true
         GameLogic.Share.gameStart()
@@ -98,11 +99,13 @@ export default class StartUI extends Laya.Scene {
         // }
     }
     skinBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         GameLogic.Share._camera.active = false
         Laya.Scene.open('MyScenes/SkinUI.scene')
     }
 
     moreGameBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         AdMgr.instance.hideBanner()
         JJMgr.instance.openScene(SceneDir.SCENE_FULLGAMEUI, false, {
             continueCallbackFun: () => {
@@ -113,6 +116,7 @@ export default class StartUI extends Laya.Scene {
     }
 
     drawBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         JJMgr.instance.openScene(SceneDir.SCENE_DRAWUI)
         WxApi.aldEvent('点击抽屉按钮人数')
     }

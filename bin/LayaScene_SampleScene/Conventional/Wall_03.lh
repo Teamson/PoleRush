@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"MeshSprite3D",
-		"instanceID":107,
+		"instanceID":6,
 		"props":{
 			"name":"Wall_03",
 			"active":true,
@@ -11,7 +11,7 @@
 			"position":[
 				0,
 				0,
-				0
+				-2.84
 			],
 			"rotation":[
 				-2.185569E-08,
@@ -49,9 +49,9 @@
 							0
 						],
 						"size":[
-							10,
+							5,
 							3.3333,
-							0.3334
+							1.5
 						]
 					}
 				],
@@ -61,7 +61,7 @@
 		"child":[
 			{
 				"type":"Sprite3D",
-				"instanceID":108,
+				"instanceID":7,
 				"props":{
 					"name":"min",
 					"active":true,
@@ -70,7 +70,7 @@
 					"position":[
 						5,
 						0,
-						0
+						-0.2
 					],
 					"rotation":[
 						0,
@@ -89,7 +89,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":109,
+				"instanceID":8,
 				"props":{
 					"name":"max",
 					"active":true,
@@ -97,8 +97,8 @@
 					"layer":0,
 					"position":[
 						-5,
-						0,
-						0
+						3.3,
+						0.2
 					],
 					"rotation":[
 						0,

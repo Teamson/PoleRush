@@ -4,6 +4,7 @@ import PlayerDataMgr from "../Libs/PlayerDataMgr"
 import WxApi from "../Libs/WxApi"
 import AdMgr from "../Mod/AdMgr"
 import ShareMgr from "../Mod/ShareMgr"
+import SoundMgr from "../Mod/SoundMgr"
 
 export default class FinishUI extends Laya.Scene {
     constructor() {
@@ -40,14 +41,17 @@ export default class FinishUI extends Laya.Scene {
     }
 
     trippleBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         let cb = () => {
             PlayerDataMgr.getPlayerData().coin += parseInt(this.bounesNum.value) * 3
+            PlayerDataMgr.getPlayerData().grade++
             this.back()
         }
         ShareMgr.instance.shareGame(cb)
     }
 
     skipBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         let cb = () => {
             PlayerDataMgr.getPlayerData().grade++
             this.back()
@@ -56,12 +60,14 @@ export default class FinishUI extends Laya.Scene {
     }
 
     normalBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         PlayerDataMgr.getPlayerData().coin += parseInt(this.bounesNum.value)
         PlayerDataMgr.getPlayerData().grade++
         this.back()
     }
 
     restartBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         this.back()
     }
 

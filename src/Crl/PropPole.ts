@@ -1,6 +1,7 @@
 import Utility from "../Mod/Utility"
 import GameLogic from "./GameLogic"
 import GameUI from "../View/GameUI"
+import SoundMgr from "../Mod/SoundMgr"
 
 export default class PropPole extends Laya.Script {
     constructor() {

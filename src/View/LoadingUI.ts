@@ -51,7 +51,10 @@ export default class LoadingUI extends Laya.Scene {
             console.log(PlayerDataMgr.roadArr1)
             console.log(PlayerDataMgr.roadArr2)
             console.log(PlayerDataMgr.roadArr3)
-            this.loadRes()
+            if (Laya.Browser.onWeiXin)
+                this.loadSubpackage()
+            else
+                this.loadRes()
         }
     }
 

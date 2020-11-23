@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"MeshSprite3D",
-		"instanceID":118,
+		"instanceID":78,
 		"props":{
 			"name":"Saw_01",
 			"active":true,
@@ -56,12 +56,30 @@
 					}
 				],
 				"isTrigger":false
+			},
+			{
+				"type":"Animator",
+				"layers":[
+					{
+						"name":"Base Layer",
+						"weight":0,
+						"blendingMode":0,
+						"states":[
+							{
+								"name":"AutoRotate",
+								"clipPath":"Assets/Anims/AutoRotate-AutoRotate.lani"
+							}
+						]
+					}
+				],
+				"cullingMode":0,
+				"playOnWake":true
 			}
 		],
 		"child":[
 			{
 				"type":"Sprite3D",
-				"instanceID":119,
+				"instanceID":79,
 				"props":{
 					"name":"min",
 					"active":true,
@@ -89,7 +107,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":120,
+				"instanceID":80,
 				"props":{
 					"name":"max",
 					"active":true,

@@ -16,7 +16,7 @@ export class ModelPos {
 
 export class PlayerData {
     grade: number = 1
-    coin: number = 90000
+    coin: number = 0
     skinId: number = 0
     skinArr: number[] = [1, 0, 0, 0, 0]
     msId: number = 0

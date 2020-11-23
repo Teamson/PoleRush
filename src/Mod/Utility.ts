@@ -76,6 +76,7 @@ export default class Utility {
      * @param ease 缓动类型
      */
     public static TmoveTo(node: Laya.Sprite3D, duration: number, des: Laya.Vector3, cb: Function, ease?) {
+        if (!node.transform) return
         let t = new Laya.Tween()
         var posOld = node.transform.position;
         t.to(node.transform.position, {
@@ -83,32 +84,37 @@ export default class Utility {
             y: des.y,
             z: des.z,
             update: new Laya.Handler(this, () => {
+                if (!node.transform) return
                 node.transform.position = posOld;
             })
-        }, duration, ease ? ease : Laya.Ease.cubicOut, Laya.Handler.create(this, () => {
+        }, duration, ease/* ease ? ease : Laya.Ease.cubicOut */, Laya.Handler.create(this, () => {
             cb && cb();
         }));
     }
     public static TmoveToYZ(node: Laya.Sprite3D, duration: number, des: Laya.Vector3, cb: Function, ease?) {
+        if (!node.transform) return
         let t = new Laya.Tween()
         var posOld = node.transform.position;
         t.to(node.transform.position, {
             y: des.y,
             z: des.z,
             update: new Laya.Handler(this, () => {
-                node.transform.position = posOld;
+                if (node.transform)
+                    node.transform.position = posOld;
             })
         }, duration, null, Laya.Handler.create(this, () => {
             cb && cb();
         }));
     }
     public static TmoveToX(node: Laya.Sprite3D, duration: number, des: Laya.Vector3, cb: Function, ease?) {
+        if (!node.transform) return
         let t = new Laya.Tween()
         var posOld = node.transform.localPosition;
         t.to(node.transform.localPosition, {
             x: des.x,
             update: new Laya.Handler(this, () => {
-                node.transform.localPosition = posOld;
+                if (node.transform)
+                    node.transform.localPosition = posOld;
             })
         }, duration, null, Laya.Handler.create(this, () => {
             cb && cb();
@@ -147,6 +153,18 @@ export default class Utility {
      */
     public static tMove2D(node, x, y, t, cb?: Function) {
         Laya.Tween.to(node, { x: x, y: y }, t, null, new Laya.Handler(this, () => {
+            if (cb) cb()
+        }))
+    }
+
+    public static scaleTo2D(node, s, t, cb?: Function) {
+        Laya.Tween.to(node, { scaleX: s, scaleY: s }, t, null, new Laya.Handler(this, () => {
+            if (cb) cb()
+        }))
+    }
+
+    public static alphaTo2D(node, s, t, cb?: Function) {
+        Laya.Tween.to(node, { alpha: s }, t, null, new Laya.Handler(this, () => {
             if (cb) cb()
         }))
     }
@@ -343,6 +361,10 @@ export default class Utility {
         pos.z += shape.localOffset.z
         let min: Laya.Vector3 = new Laya.Vector3(pos.x - shape.sizeX / 2, pos.y - shape.sizeY / 2, pos.z - shape.sizeZ / 2)
         let max: Laya.Vector3 = new Laya.Vector3(pos.x + shape.sizeX / 2, pos.y + shape.sizeY / 2, pos.z + shape.sizeZ / 2)
+        return new Laya.BoundBox(min, max)
+    }
+
+    public static getBoundBoxWithMinMax(min, max): Laya.BoundBox {
         return new Laya.BoundBox(min, max)
     }
 

@@ -3,6 +3,7 @@ import WxApi from "../Libs/WxApi"
 import ShareMgr from "../Mod/ShareMgr"
 import Utility from "../Mod/Utility"
 import GameLogic from "../Crl/GameLogic"
+import SoundMgr from "../Mod/SoundMgr"
 
 export default class SkinUI extends Laya.Scene {
     constructor() {
@@ -72,6 +73,19 @@ export default class SkinUI extends Laya.Scene {
         this.player.getChildByName('Trail4').active = false;
         this.player.getChildByName('Trail5').active = false;
         this.player.getChildByName('Trail6').active = false;
+        this.player.getChildByName('SpeedFX').active = false;
+    }
+
+    //切换皮肤
+    changeSkin(id: number) {
+        let mats = new Laya.UnlitMaterial();
+        Laya.Texture2D.load('res/skinRes/Hero_0' + (id + 1) + '.png', Laya.Handler.create(this, (tex) => {
+            mats.albedoTexture = tex;
+        }))
+        for (let i = 0; i < 1; i++) {
+            let mesh3d = this.player.getChildAt(i) as Laya.SkinnedMeshSprite3D;
+            mesh3d.skinnedMeshRenderer.material = mats;
+        }
     }
 
     trailMode() {
@@ -91,9 +105,9 @@ export default class SkinUI extends Laya.Scene {
             this.player.getChildByName('Trail' + (index + 1)).active = true;
     }
     playerMove() {
-        this.player.transform.translate(new Laya.Vector3(1, 0, 0), false)
-        this.skinScene.transform.translate(new Laya.Vector3(1, 0, 0), false)
-        this.camera.transform.translate(new Laya.Vector3(1, 0, 0), false)
+        this.player.transform.translate(new Laya.Vector3(0.3, 0, 0), false)
+        this.skinScene.transform.translate(new Laya.Vector3(0.3, 0, 0), false)
+        this.camera.transform.translate(new Laya.Vector3(0.3, 0, 0), false)
     }
 
     skinMode() {
@@ -144,6 +158,7 @@ export default class SkinUI extends Laya.Scene {
         this.chooseId = index
         this.costNum.visible = false
         if (this.curPage == 0) {
+            this.changeSkin(this.chooseId)
             if (PlayerDataMgr.getPlayerData().skinArr[index] == 1) {
                 //已拥有
                 if (PlayerDataMgr.getPlayerData().skinId == index) {
@@ -181,18 +196,21 @@ export default class SkinUI extends Laya.Scene {
     }
 
     skinBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         this.curPage = 0
         this.chooseId = PlayerDataMgr.getPlayerData().skinId
+        this.changeSkin(this.chooseId)
         this.costNum.visible = false
         this.useBtn.skin = 'skinUI/tw_btn_4.png'
         this.skinBtn.skin = 'skinUI/tw_yq_4.png'
         this.motionBtn.skin = 'skinUI/tw_yq_2.png'
         this.updateItem()
         this.activeTrail(-1)
-        Laya.timer.clearAll(this)
+        Laya.timer.clearAll(this.playerMove)
         this.skinMode()
     }
     motionBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         this.curPage = 1
         this.chooseId = PlayerDataMgr.getPlayerData().msId
         this.costNum.visible = false
@@ -203,6 +221,7 @@ export default class SkinUI extends Laya.Scene {
         this.trailMode()
     }
     useBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         if (this.useBtn.skin == 'skinUI/tw_btn_2.png') {
             //可使用
             if (this.curPage == 0) {
@@ -219,6 +238,7 @@ export default class SkinUI extends Laya.Scene {
                     PlayerDataMgr.getPlayerData().coin -= 3000
                     this.costNum.visible = false
                     this.useBtn.skin = 'skinUI/tw_btn_4.png'
+                    SoundMgr.instance.playSoundEffect('Buy.mp3')
                 } else {
                     WxApi.OpenAlert('钻石不足！')
                 }
@@ -229,15 +249,19 @@ export default class SkinUI extends Laya.Scene {
                     PlayerDataMgr.getPlayerData().coin -= 2000
                     this.costNum.visible = false
                     this.useBtn.skin = 'skinUI/tw_btn_4.png'
+                    SoundMgr.instance.playSoundEffect('Buy.mp3')
                 } else {
                     WxApi.OpenAlert('钻石不足！')
                 }
             }
         }
         PlayerDataMgr.setPlayerData()
+        GameLogic.Share._playerCrl.changeSkin(PlayerDataMgr.getPlayerData().skinId)
+        GameLogic.Share._playerCrl.refreshTrail()
         this.updateItem()
     }
     adBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         let cb = () => {
             PlayerDataMgr.getPlayerData().coin += 1000
             PlayerDataMgr.setPlayerData()
@@ -246,6 +270,7 @@ export default class SkinUI extends Laya.Scene {
         ShareMgr.instance.shareGame(cb)
     }
     backBtnCB() {
+        SoundMgr.instance.playSoundEffect('Click.mp3')
         Laya.Scene.open('MyScenes/StartUI.scene')
     }
 

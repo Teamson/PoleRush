@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":38,
+    "selecteID":8,
     "searchKey":"Scene",
     "props":{"width":750,"sceneColor":"#e53e3b","runtime":"View/StartUI.ts","height":1334},
     "nodeParent":-1,
-    "maxID":42,
+    "maxID":43,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -117,16 +117,17 @@
             "props":{"name":"bottomNode","bottom":330},
             "nodeParent":2,
             "label":"bottomNode",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":35,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,moreGameBtn",
-                    "props":{"y":-63,"x":0,"var":"moreGameBtn","skin":"startUI/zy_gdyx_1.png","scaleY":1,"scaleX":1,"anchorY":0.5,"anchorX":0},
+                    "props":{"y":-63,"x":0,"visible":false,"var":"moreGameBtn","skin":"startUI/zy_gdyx_1.png","scaleY":1,"scaleX":1,"anchorY":0.5,"anchorX":0},
                     "nodeParent":35,
                     "label":"moreGameBtn",
                     "isDirectory":false,
@@ -137,9 +138,10 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,drawBtn",
-                    "props":{"y":-260,"x":0,"var":"drawBtn","skin":"startUI/zy_ct_1.png"},
+                    "props":{"y":-260,"x":0,"visible":false,"var":"drawBtn","skin":"startUI/zy_ct_1.png"},
                     "nodeParent":35,
                     "label":"drawBtn",
                     "isOpen":true,
@@ -149,6 +151,7 @@
                     "compId":9,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{"y":-9,"x":103,"texture":"startUI/sy-btn_4.png"},
@@ -163,6 +166,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,tips",
                     "props":{"y":-46,"x":375,"skin":"startUI/zy_ks_1.png","name":"tips","anchorY":0.5,"anchorX":0.5},
@@ -176,6 +180,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,skinBtn",
                     "props":{"y":-260,"x":750,"var":"skinBtn","skin":"startUI/zy_sc_1.png","anchorY":0,"anchorX":1},

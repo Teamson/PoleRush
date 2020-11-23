@@ -2,7 +2,7 @@
 	"version":"LAYAHIERARCHY:02",
 	"data":{
 		"type":"Sprite3D",
-		"instanceID":10,
+		"instanceID":0,
 		"props":{
 			"name":"Hero_01",
 			"active":true,
@@ -90,7 +90,7 @@
 		"child":[
 			{
 				"type":"SkinnedMeshSprite3D",
-				"instanceID":11,
+				"instanceID":1,
 				"props":{
 					"name":"Hero_01",
 					"active":true,
@@ -112,7 +112,7 @@
 						1,
 						1
 					],
-					"rootBone":12,
+					"rootBone":2,
 					"boundBox":{
 						"min":[
 							-0.6390225,
@@ -134,13 +134,23 @@
 						"radius":1.085077
 					},
 					"bones":[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						2,
+						9,
+						10,
+						11,
+						12,
 						13,
 						14,
 						15,
 						16,
 						17,
 						18,
-						12,
 						19,
 						20,
 						21,
@@ -162,17 +172,7 @@
 						37,
 						38,
 						39,
-						40,
-						41,
-						42,
-						43,
-						44,
-						45,
-						46,
-						47,
-						48,
-						49,
-						50
+						40
 					],
 					"enableRender":true,
 					"receiveShadows":true,
@@ -189,7 +189,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":51,
+				"instanceID":41,
 				"props":{
 					"name":"Hero_01 1",
 					"active":true,
@@ -216,7 +216,7 @@
 				"child":[
 					{
 						"type":"Sprite3D",
-						"instanceID":52,
+						"instanceID":42,
 						"props":{
 							"name":"Bip001",
 							"active":true,
@@ -243,7 +243,7 @@
 						"child":[
 							{
 								"type":"Sprite3D",
-								"instanceID":53,
+								"instanceID":43,
 								"props":{
 									"name":"Bip001 Footsteps",
 									"active":true,
@@ -271,7 +271,7 @@
 							},
 							{
 								"type":"Sprite3D",
-								"instanceID":12,
+								"instanceID":2,
 								"props":{
 									"name":"Bip001 Pelvis",
 									"active":true,
@@ -298,7 +298,7 @@
 								"child":[
 									{
 										"type":"Sprite3D",
-										"instanceID":18,
+										"instanceID":8,
 										"props":{
 											"name":"Bip001 Spine",
 											"active":true,
@@ -325,7 +325,7 @@
 										"child":[
 											{
 												"type":"Sprite3D",
-												"instanceID":20,
+												"instanceID":10,
 												"props":{
 													"name":"Bip001 L Thigh",
 													"active":true,
@@ -352,7 +352,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":23,
+														"instanceID":13,
 														"props":{
 															"name":"Bip001 L Calf",
 															"active":true,
@@ -379,7 +379,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":38,
+																"instanceID":28,
 																"props":{
 																	"name":"Bip001 L Foot",
 																	"active":true,
@@ -406,7 +406,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":54,
+																		"instanceID":44,
 																		"props":{
 																			"name":"Bip001 L Toe0",
 																			"active":true,
@@ -433,7 +433,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":55,
+																				"instanceID":45,
 																				"props":{
 																					"name":"Bip001 L Toe0Nub",
 																					"active":true,
@@ -469,7 +469,7 @@
 											},
 											{
 												"type":"Sprite3D",
-												"instanceID":19,
+												"instanceID":9,
 												"props":{
 													"name":"Bip001 R Thigh",
 													"active":true,
@@ -496,7 +496,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":21,
+														"instanceID":11,
 														"props":{
 															"name":"Bip001 R Calf",
 															"active":true,
@@ -523,7 +523,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":22,
+																"instanceID":12,
 																"props":{
 																	"name":"Bip001 R Foot",
 																	"active":true,
@@ -550,7 +550,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":56,
+																		"instanceID":46,
 																		"props":{
 																			"name":"Bip001 R Toe0",
 																			"active":true,
@@ -577,7 +577,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":57,
+																				"instanceID":47,
 																				"props":{
 																					"name":"Bip001 R Toe0Nub",
 																					"active":true,
@@ -613,7 +613,7 @@
 											},
 											{
 												"type":"Sprite3D",
-												"instanceID":13,
+												"instanceID":3,
 												"props":{
 													"name":"Bip001 Spine1",
 													"active":true,
@@ -640,7 +640,7 @@
 												"child":[
 													{
 														"type":"Sprite3D",
-														"instanceID":14,
+														"instanceID":4,
 														"props":{
 															"name":"Bip001 Neck",
 															"active":true,
@@ -667,7 +667,7 @@
 														"child":[
 															{
 																"type":"Sprite3D",
-																"instanceID":15,
+																"instanceID":5,
 																"props":{
 																	"name":"Bip001 Head",
 																	"active":true,
@@ -694,7 +694,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":58,
+																		"instanceID":48,
 																		"props":{
 																			"name":"Bip001 HeadNub",
 																			"active":true,
@@ -724,7 +724,7 @@
 															},
 															{
 																"type":"Sprite3D",
-																"instanceID":36,
+																"instanceID":26,
 																"props":{
 																	"name":"Bip001 L Clavicle",
 																	"active":true,
@@ -751,7 +751,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":37,
+																		"instanceID":27,
 																		"props":{
 																			"name":"Bip001 L UpperArm",
 																			"active":true,
@@ -778,7 +778,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":39,
+																				"instanceID":29,
 																				"props":{
 																					"name":"Bip001 L Forearm",
 																					"active":true,
@@ -805,7 +805,7 @@
 																				"child":[
 																					{
 																						"type":"Sprite3D",
-																						"instanceID":40,
+																						"instanceID":30,
 																						"props":{
 																							"name":"Bip001 L Hand",
 																							"active":true,
@@ -832,7 +832,7 @@
 																						"child":[
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":46,
+																								"instanceID":36,
 																								"props":{
 																									"name":"Bip001 L Finger0",
 																									"active":true,
@@ -859,7 +859,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":47,
+																										"instanceID":37,
 																										"props":{
 																											"name":"Bip001 L Finger01",
 																											"active":true,
@@ -886,7 +886,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":59,
+																												"instanceID":49,
 																												"props":{
 																													"name":"Bip001 L Finger0Nub",
 																													"active":true,
@@ -918,7 +918,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":45,
+																								"instanceID":35,
 																								"props":{
 																									"name":"Bip001 L Finger1",
 																									"active":true,
@@ -945,7 +945,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":50,
+																										"instanceID":40,
 																										"props":{
 																											"name":"Bip001 L Finger11",
 																											"active":true,
@@ -972,7 +972,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":60,
+																												"instanceID":50,
 																												"props":{
 																													"name":"Bip001 L Finger1Nub",
 																													"active":true,
@@ -1004,7 +1004,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":44,
+																								"instanceID":34,
 																								"props":{
 																									"name":"Bip001 L Finger2",
 																									"active":true,
@@ -1031,7 +1031,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":49,
+																										"instanceID":39,
 																										"props":{
 																											"name":"Bip001 L Finger21",
 																											"active":true,
@@ -1058,7 +1058,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":61,
+																												"instanceID":51,
 																												"props":{
 																													"name":"Bip001 L Finger2Nub",
 																													"active":true,
@@ -1090,7 +1090,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":43,
+																								"instanceID":33,
 																								"props":{
 																									"name":"Bip001 L Finger3",
 																									"active":true,
@@ -1117,7 +1117,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":48,
+																										"instanceID":38,
 																										"props":{
 																											"name":"Bip001 L Finger31",
 																											"active":true,
@@ -1144,7 +1144,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":62,
+																												"instanceID":52,
 																												"props":{
 																													"name":"Bip001 L Finger3Nub",
 																													"active":true,
@@ -1176,7 +1176,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":41,
+																								"instanceID":31,
 																								"props":{
 																									"name":"Bip001 L Finger4",
 																									"active":true,
@@ -1203,7 +1203,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":42,
+																										"instanceID":32,
 																										"props":{
 																											"name":"Bip001 L Finger41",
 																											"active":true,
@@ -1230,7 +1230,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":63,
+																												"instanceID":53,
 																												"props":{
 																													"name":"Bip001 L Finger4Nub",
 																													"active":true,
@@ -1270,7 +1270,7 @@
 															},
 															{
 																"type":"Sprite3D",
-																"instanceID":16,
+																"instanceID":6,
 																"props":{
 																	"name":"Bip001 R Clavicle",
 																	"active":true,
@@ -1297,7 +1297,7 @@
 																"child":[
 																	{
 																		"type":"Sprite3D",
-																		"instanceID":17,
+																		"instanceID":7,
 																		"props":{
 																			"name":"Bip001 R UpperArm",
 																			"active":true,
@@ -1324,7 +1324,7 @@
 																		"child":[
 																			{
 																				"type":"Sprite3D",
-																				"instanceID":24,
+																				"instanceID":14,
 																				"props":{
 																					"name":"Bip001 R Forearm",
 																					"active":true,
@@ -1351,7 +1351,7 @@
 																				"child":[
 																					{
 																						"type":"Sprite3D",
-																						"instanceID":25,
+																						"instanceID":15,
 																						"props":{
 																							"name":"Bip001 R Hand",
 																							"active":true,
@@ -1378,7 +1378,7 @@
 																						"child":[
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":31,
+																								"instanceID":21,
 																								"props":{
 																									"name":"Bip001 R Finger0",
 																									"active":true,
@@ -1405,7 +1405,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":32,
+																										"instanceID":22,
 																										"props":{
 																											"name":"Bip001 R Finger01",
 																											"active":true,
@@ -1432,7 +1432,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":64,
+																												"instanceID":54,
 																												"props":{
 																													"name":"Bip001 R Finger0Nub",
 																													"active":true,
@@ -1464,7 +1464,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":30,
+																								"instanceID":20,
 																								"props":{
 																									"name":"Bip001 R Finger1",
 																									"active":true,
@@ -1491,7 +1491,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":35,
+																										"instanceID":25,
 																										"props":{
 																											"name":"Bip001 R Finger11",
 																											"active":true,
@@ -1518,7 +1518,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":65,
+																												"instanceID":55,
 																												"props":{
 																													"name":"Bip001 R Finger1Nub",
 																													"active":true,
@@ -1550,7 +1550,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":29,
+																								"instanceID":19,
 																								"props":{
 																									"name":"Bip001 R Finger2",
 																									"active":true,
@@ -1577,7 +1577,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":34,
+																										"instanceID":24,
 																										"props":{
 																											"name":"Bip001 R Finger21",
 																											"active":true,
@@ -1604,7 +1604,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":66,
+																												"instanceID":56,
 																												"props":{
 																													"name":"Bip001 R Finger2Nub",
 																													"active":true,
@@ -1636,7 +1636,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":28,
+																								"instanceID":18,
 																								"props":{
 																									"name":"Bip001 R Finger3",
 																									"active":true,
@@ -1663,7 +1663,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":33,
+																										"instanceID":23,
 																										"props":{
 																											"name":"Bip001 R Finger31",
 																											"active":true,
@@ -1690,7 +1690,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":67,
+																												"instanceID":57,
 																												"props":{
 																													"name":"Bip001 R Finger3Nub",
 																													"active":true,
@@ -1722,7 +1722,7 @@
 																							},
 																							{
 																								"type":"Sprite3D",
-																								"instanceID":26,
+																								"instanceID":16,
 																								"props":{
 																									"name":"Bip001 R Finger4",
 																									"active":true,
@@ -1749,7 +1749,7 @@
 																								"child":[
 																									{
 																										"type":"Sprite3D",
-																										"instanceID":27,
+																										"instanceID":17,
 																										"props":{
 																											"name":"Bip001 R Finger41",
 																											"active":true,
@@ -1776,7 +1776,7 @@
 																										"child":[
 																											{
 																												"type":"Sprite3D",
-																												"instanceID":68,
+																												"instanceID":58,
 																												"props":{
 																													"name":"Bip001 R Finger4Nub",
 																													"active":true,
@@ -1828,7 +1828,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":69,
+				"instanceID":59,
 				"props":{
 					"name":"Trail1",
 					"active":true,
@@ -1855,7 +1855,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":70,
+						"instanceID":60,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -1879,7 +1879,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -1928,7 +1928,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -1945,7 +1945,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":71,
+						"instanceID":61,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -1968,27 +1968,27 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":1.613065E+09,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
 									"startLifetimeConstantMax":1,
 									"startSpeedConstant":0,
 									"startSpeedConstantMax":0,
-									"startSizeConstant":0.1,
-									"startSizeConstantMax":0.1,
+									"startSizeConstant":0.5,
+									"startSizeConstantMax":0.5,
 									"gravityModifier":-0.05,
 									"simulationSpace":0,
 									"maxParticles":1000
 								},
 								"vector3s":{
 									"startSizeConstantSeparate":[
-										0.1,
+										0.5,
 										1,
 										1
 									],
 									"startSizeConstantMaxSeparate":[
-										0.1,
+										0.5,
 										1,
 										1
 									]
@@ -2154,7 +2154,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":72,
+				"instanceID":62,
 				"props":{
 					"name":"Trail2",
 					"active":true,
@@ -2181,7 +2181,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":73,
+						"instanceID":63,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -2205,7 +2205,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -2254,7 +2254,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -2271,7 +2271,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":74,
+						"instanceID":64,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -2294,7 +2294,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":1.872612E+09,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
@@ -2421,7 +2421,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":75,
+				"instanceID":65,
 				"props":{
 					"name":"Trail3",
 					"active":true,
@@ -2448,7 +2448,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":76,
+						"instanceID":66,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -2472,7 +2472,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -2521,7 +2521,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -2538,7 +2538,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":77,
+						"instanceID":67,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -2561,7 +2561,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":4.156492E+09,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
@@ -2688,7 +2688,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":78,
+				"instanceID":68,
 				"props":{
 					"name":"Trail4",
 					"active":true,
@@ -2715,7 +2715,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":79,
+						"instanceID":69,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -2739,7 +2739,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -2788,7 +2788,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -2805,7 +2805,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":80,
+						"instanceID":70,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -2828,7 +2828,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":1.572663E+09,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
@@ -2955,7 +2955,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":81,
+				"instanceID":71,
 				"props":{
 					"name":"Trail5",
 					"active":true,
@@ -2982,7 +2982,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":82,
+						"instanceID":72,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -3006,7 +3006,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -3055,7 +3055,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -3072,7 +3072,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":83,
+						"instanceID":73,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -3095,7 +3095,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":3.775205E+08,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
@@ -3222,7 +3222,7 @@
 			},
 			{
 				"type":"Sprite3D",
-				"instanceID":84,
+				"instanceID":74,
 				"props":{
 					"name":"Trail6",
 					"active":true,
@@ -3249,7 +3249,7 @@
 				"child":[
 					{
 						"type":"TrailSprite3D",
-						"instanceID":85,
+						"instanceID":75,
 						"props":{
 							"name":"Trail",
 							"active":true,
@@ -3273,7 +3273,7 @@
 							],
 							"time":0.5,
 							"minVertexDistance":0,
-							"widthMultiplier":0.5,
+							"widthMultiplier":1,
 							"textureMode":0,
 							"widthCurve":[
 								{
@@ -3322,7 +3322,7 @@
 									},
 									{
 										"time":1,
-										"value":1
+										"value":0
 									}
 								]
 							},
@@ -3339,7 +3339,7 @@
 					},
 					{
 						"type":"ShuriKenParticle3D",
-						"instanceID":86,
+						"instanceID":76,
 						"props":{
 							"name":"Particle",
 							"active":true,
@@ -3362,7 +3362,7 @@
 								1
 							],
 							"main":{
-								"randomSeed":0,
+								"randomSeed":2.547646E+09,
 								"bases":{
 									"isPerformanceMode":true,
 									"startLifetimeConstant":1,
@@ -3509,7 +3509,7 @@
 			},
 			{
 				"type":"ShuriKenParticle3D",
-				"instanceID":87,
+				"instanceID":77,
 				"props":{
 					"name":"LandFX",
 					"active":true,
@@ -3532,7 +3532,7 @@
 						1
 					],
 					"main":{
-						"randomSeed":3.530305E+09,
+						"randomSeed":0,
 						"bases":{
 							"isPerformanceMode":true,
 							"duration":0.1,
@@ -3659,6 +3659,138 @@
 					"renderer":{
 						"resources":{
 							"material":"Assets/FX/Materials/Smoke24.lmat"
+						}
+					}
+				},
+				"components":[],
+				"child":[]
+			},
+			{
+				"type":"ShuriKenParticle3D",
+				"instanceID":78,
+				"props":{
+					"name":"SpeedFX",
+					"active":true,
+					"isStatic":false,
+					"layer":0,
+					"position":[
+						0,
+						0,
+						30
+					],
+					"rotation":[
+						0,
+						1,
+						0,
+						1.872535E-07
+					],
+					"scale":[
+						1,
+						1,
+						1
+					],
+					"main":{
+						"randomSeed":2.552585E+09,
+						"bases":{
+							"isPerformanceMode":true,
+							"startLifetimeConstant":1,
+							"startLifetimeConstantMax":1,
+							"startSpeedConstant":100,
+							"startSpeedConstantMax":100,
+							"startSizeType":2,
+							"startSizeConstant":0.2,
+							"startSizeConstantMin":0.1,
+							"startSizeConstantMax":0.2,
+							"maxParticles":1000
+						},
+						"vector3s":{
+							"startSizeConstantSeparate":[
+								0.2,
+								1,
+								1
+							],
+							"startSizeConstantMinSeparate":[
+								0.1,
+								1,
+								1
+							],
+							"startSizeConstantMaxSeparate":[
+								0.2,
+								1,
+								1
+							]
+						}
+					},
+					"emission":{
+						"bases":{
+							"enable":true,
+							"emissionRate":30
+						}
+					},
+					"shape":{
+						"shapeType":2,
+						"bases":{
+							"enable":true,
+							"radius":11.60229,
+							"angle":0.217022,
+							"emitType":0
+						}
+					},
+					"colorOverLifetime":{
+						"bases":{
+							"enable":true
+						},
+						"color":{
+							"type":1,
+							"gradient":{
+								"alphas":[
+									{
+										"key":0,
+										"value":0
+									},
+									{
+										"key":0.2705882,
+										"value":1
+									},
+									{
+										"key":0.7647059,
+										"value":1
+									},
+									{
+										"key":1,
+										"value":0
+									}
+								]
+							},
+							"gradientMax":{
+								"alphas":[
+									{
+										"key":0,
+										"value":0
+									},
+									{
+										"key":0.2705882,
+										"value":1
+									},
+									{
+										"key":0.7647059,
+										"value":1
+									},
+									{
+										"key":1,
+										"value":0
+									}
+								]
+							}
+						}
+					},
+					"renderer":{
+						"bases":{
+							"renderMode":1,
+							"stretchedBillboardLengthScale":20
+						},
+						"resources":{
+							"material":"Assets/FX/Materials/Photosphere4.lmat"
 						}
 					}
 				},

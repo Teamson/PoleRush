@@ -71,7 +71,7 @@
 					"layer":0,
 					"position":[
 						0,
-						8.75,
+						7.8,
 						-7.1
 					],
 					"rotation":[

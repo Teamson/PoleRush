@@ -1,4 +1,7 @@
+import WxApi from "../Libs/WxApi"
+import SoundMgr from "../Mod/SoundMgr"
 import Utility from "../Mod/Utility"
+import GameUI from "../View/GameUI"
 import GameLogic from "./GameLogic"
 
 export default class Pole extends Laya.Script {
@@ -27,6 +30,15 @@ export default class Pole extends Laya.Script {
     }
 
     scalePole(v: number) {
+        WxApi.DoVibrate(false)
+        if (v > 0) {
+            SoundMgr.instance.playSoundEffect('Longer.mp3')
+            GameUI.Share.showTips(3)
+        }
+        else if (v < 0) {
+            SoundMgr.instance.playSoundEffect('Shorter.mp3')
+            GameUI.Share.showTips(2)
+        }
         this.myOwner.transform.localScale = new Laya.Vector3(this.myOwner.transform.localScaleX + v, 1, 1)
     }
     movePole(v: number) {
@@ -41,12 +53,12 @@ export default class Pole extends Laya.Script {
 
         for (let i = 0; i < GameLogic.Share._collisionArr.length; i++) {
             let c = GameLogic.Share._collisionArr[i]
-            if (c === this.myOwner) continue
+            if (c === this.myOwner || !this.canColl) continue
             let mybb = this.getMyBound()
             let obb = Utility.getBoundBox(c)
             if (Laya.CollisionUtils.intersectsBoxAndBox(mybb, obb)) {
                 if (c.name.search('Wall') != -1 || c.name.search('Saw') != -1) {
-                    this.canColl = false
+                    //this.canColl = false
                     let l = 0
                     let isLeft = true
                     if (c.transform.position.x > this.myOwner.transform.position.x) {
@@ -57,13 +69,14 @@ export default class Pole extends Laya.Script {
                     }
                     this.scalePole(-l)
                     this.movePole(isLeft ? -l / 2 : l / 2)
-                    Laya.timer.once(500, this, () => {
+                    Laya.timer.once(300, this, () => {
                         let p = this.myOwner.transform.localPosition.clone()
-                        if (isLeft)
-                            p.x += l / 2
-                        else
-                            p.x -= l / 2
-                        Utility.TmoveToX(this.myOwner, 200, p, () => { this.canColl = true })
+                        // if (isLeft)
+                        //     p.x += l / 2
+                        // else
+                        //     p.x -= l / 2
+                        p.x = 0
+                        Utility.TmoveToX(this.myOwner, 100, p, () => { this.canColl = true })
                     })
                     let newP = Utility.getSprite3DResByUrl('Pole_01.lh', GameLogic.Share._levelNode)
                     let myp = this.myOwner.transform.position.clone()
@@ -87,7 +100,7 @@ export default class Pole extends Laya.Script {
 
     onUpdate() {
         if (GameLogic.Share.isGameOver || !GameLogic.Share.isStartGame) return
-        GameLogic.Share.fixCameraField()
+        //GameLogic.Share.fixCameraField()
         this.checkCollision()
     }
 }

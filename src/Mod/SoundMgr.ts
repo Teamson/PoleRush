@@ -13,18 +13,22 @@ export default class SoundMgr {
         //预加载资源
         var resUrl: any[] = [
             { url: 'res/Sounds/Bgm.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/BowlingHit.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Correct.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Win.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Wrong.mp3', type: Laya.Loader.SOUND },
-            { url: 'res/Sounds/Kick.mp3', type: Laya.Loader.SOUND }
+            { url: 'res/Sounds/Bar.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Buy.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Click.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Ground.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Jewel.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Longer.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Run.mp3', type: Laya.Loader.SOUND },
+            { url: 'res/Sounds/Shorter.mp3', type: Laya.Loader.SOUND }
         ];
         Laya.loader.load(resUrl, Laya.Handler.create(this, fun));
 
         //跟随设备静音键 静音
         //Laya.SoundManager.useAudioMusic = true
         //Laya.SoundManager.autoStopMusic = true
-        //Laya.SoundManager.setMusicVolume(1)
+        Laya.SoundManager.setMusicVolume(1)
+        Laya.SoundManager.setSoundVolume(1)
     }
 
     playMusic(str: string, loops: number = 0, cb?: Function) {
@@ -43,7 +47,10 @@ export default class SoundMgr {
         //         this.effectArr.splice(this.effectArr.indexOf(str), 1)
         //     })
         // }
-        Laya.SoundManager.playSound('res/Sounds/' + str, loops, new Laya.Handler(this, cb))
+        return Laya.SoundManager.playSound('res/Sounds/' + str, loops, new Laya.Handler(this, cb))
     }
 
+    stopSound(str: string) {
+        Laya.SoundManager.stopSound('res/Sounds/' + str)
+    }
 }

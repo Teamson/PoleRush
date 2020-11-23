@@ -7,7 +7,7 @@ export default class WxApi {
     public static UnityPath: string = 'LayaScene_SampleScene/Conventional/'
 
     public static openId: string = ''
-    public static version: string = '1.0.1'
+    public static version: string = '1.0.0'
     public static isVibrate: boolean = true
     public static isMusic: boolean = true
     public static OnShowFun: Function = null
